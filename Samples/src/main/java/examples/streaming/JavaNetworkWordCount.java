@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.spark.examples.streaming;
+package examples.streaming;
 
 import scala.Tuple2;
 import com.google.common.collect.Lists;
@@ -53,7 +53,7 @@ public final class JavaNetworkWordCount {
       System.exit(1);
     }
 
-    StreamingExamples.setStreamingLogLevels();
+    //StreamingExamples.setStreamingLogLevels();
 
     // Create the context with a 1 second batch size
     SparkConf sparkConf = new SparkConf().setAppName("JavaNetworkWordCount");
