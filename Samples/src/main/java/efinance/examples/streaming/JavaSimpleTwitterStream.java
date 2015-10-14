@@ -14,9 +14,9 @@ import twitter4j.conf.ConfigurationBuilder;
 
 /**
    FROM {SPARK_HOME} START WITH
-  .\bin\spark-submit  --class "efinance.examples.streaming.JavaSimpleTwitterStream"   --master local[4]   target\Samples-0.0.1-SNAPSHOT.jar
- * @author m.piunti
- *
+   .\bin\spark-submit  --class "efinance.examples.streaming.JavaSimpleTwitterStream"   --master local[4]   target\Samples-0.0.1-SNAPSHOT.jar
+   @author m.piunti
+ 
  */
 public class JavaSimpleTwitterStream {
 	
