@@ -7,4 +7,4 @@
 
 #Simple Spark Streaming Jobs 
 
-__Examples of SPark Jobs__
+__Examples of Spark Jobs__
