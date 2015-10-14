@@ -21,10 +21,10 @@ import twitter4j.conf.ConfigurationBuilder;
 public class JavaSimpleTwitterStream {
 	
 	public static void main(String[] args) {
-	    if (args.length < 2) {
+	  /*  if (args.length < 2) {
 	      System.err.println("Usage: JavaNetworkWordCount <hostname> <port>");
 	      System.exit(1);
-	    }
+	    }*/
 
 	    //StreamingExamples.setStreamingLogLevels();
 
@@ -46,11 +46,11 @@ public class JavaSimpleTwitterStream {
 	    /*
 	    // create a DStream of twetter statuses
 	    // continuous stream of RDDs containing objects of type twitter4j.Status. 
-	    // As a very simple processing step, let’s try to print the status text of the some of the tweets.
+	    // As a very simple processing step, letï¿½s try to print the status text of the some of the tweets.
 	    // JavaDStream<Status> tweets = ssc.twitterStream();
 	    */
 	    
-	    // the map operation on tweets maps each Status object to its text to create a new ‘transformed’ DStream named statuses. 
+	    // the map operation on tweets maps each Status object to its text to create a new ï¿½transformedï¿½ DStream named statuses. 
 	    // The print output operation tells the context to print first 10 records in 
 	    //each RDD in a DStream, which in this case are 1 second batches of received status texts.	    
 	    JavaDStream<String> statuses = tweets.map(
