@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package examples.streaming;
+package efinance.examples.streaming;
 
 import scala.Tuple2;
 import com.google.common.collect.Lists;
