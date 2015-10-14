@@ -12,7 +12,12 @@ import twitter4j.auth.OAuthAuthorization;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
-
+/**
+   FROM {SPARK_HOME} START WITH
+  .\bin\spark-submit  --class "efinance.examples.streaming.JavaSimpleTwitterStream"   --master local[4]   target\Samples-0.0.1-SNAPSHOT.jar
+ * @author m.piunti
+ *
+ */
 public class JavaSimpleTwitterStream {
 	
 	public static void main(String[] args) {
@@ -42,7 +47,7 @@ public class JavaSimpleTwitterStream {
 	    // create a DStream of twetter statuses
 	    // continuous stream of RDDs containing objects of type twitter4j.Status. 
 	    // As a very simple processing step, let’s try to print the status text of the some of the tweets.
-	    JavaDStream<Status> tweets = ssc.twitterStream();
+	    // JavaDStream<Status> tweets = ssc.twitterStream();
 	    */
 	    
 	    // the map operation on tweets maps each Status object to its text to create a new ‘transformed’ DStream named statuses. 
@@ -52,15 +57,13 @@ public class JavaSimpleTwitterStream {
 	    	      new Function<Status, String>() {
 	    	        public String call(Status status) { return status.getText(); }
 	    	      }
-	    	    );
+	    );
 	    statuses.print();
 	    
-	    //ssc.checkpoint(checkpointDir);
-	    
+	    //ssc.checkpoint(checkpointDir);	    
 	    //ssc.start();
-
 	    
-	   // tweets.print();
+	    // tweets.print();
 	    ssc.start();
 	    ssc.awaitTermination();    
 	}

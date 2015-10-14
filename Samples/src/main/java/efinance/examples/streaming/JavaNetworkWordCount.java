@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
  * To run this on your local machine, you need to first run a Netcat server
  *    `$ nc -lk 9999`
  * and then run the example
- *    `$ bin/run-example org.apache.spark.examples.streaming.JavaNetworkWordCount localhost 9999`
+ *    `$ bin/run-example efinance.examples.streaming localhost 9999`
  */
 public final class JavaNetworkWordCount {
   private static final Pattern SPACE = Pattern.compile(" ");
