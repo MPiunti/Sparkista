@@ -41,11 +41,10 @@ public class JavaFilteredTwitterStream {
 	    cb.setOAuthAccessToken("28091059-jn5EJuCDBbeDnk8XNsSAdfa6mkaF9oJoUgh6UWQ2I");
 	    cb.setOAuthAccessTokenSecret("mXiZezgxaYwXHujZaB44tyYYDi6AfqheqAmmGDqehd0iG"); 
 	    Configuration conf = cb.build();
-	    OAuthAuthorization  oauth = new OAuthAuthorization( conf);
+	    OAuthAuthorization  oauth = new OAuthAuthorization(conf);
 	    
 	    JavaDStream<Status> tweets = TwitterUtils.createStream(ssc, oauth);
 	    
-	    System.exit(1);
 	   	    
 	    // the map operation on tweets maps each Status object to its text to create a new �transformed� DStream named statuses. 
 	    // The print output operation tells the context to print first 10 records in 
