@@ -18,17 +18,22 @@ import twitter4j.conf.ConfigurationBuilder;
    @author m.piunti
  
  */
-public class JavaSimpleTwitterStream {
+public class JavaFilteredTwitterStream {
 	
 	public static void main(String[] args) {
-	  
+		
+	    if (args.length < 1) {
+	      System.err.println("Usage: JavaFilterTwitterStream <filter>");
+	      System.exit(1);
+	    } 
+
 	    //StreamingExamples.setStreamingLogLevels();
 
 	    // Create the context with a 1 second batch size
-	    SparkConf sparkConf = new SparkConf().setAppName("JavaSimpleTwitterStream");
+	    SparkConf sparkConf = new SparkConf().setAppName("JavaFilterTwitterStream");
 	    JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, Durations.seconds(1));
 	    
-	    //twitter4j.auth.Authorization auth = 
+	    //twitter4j.auth.Authorization auth  
 	    ConfigurationBuilder  cb = new ConfigurationBuilder() ;	   
 	    cb.setOAuthConsumerKey("LXMCzC2Xh03gRHa1c0Alc9at5");
 	    cb.setOAuthConsumerSecret("CqiOJuoCuxol6ufvPjkRO44CDlhuAxf6jUhgxHIIsJm51u2xVe");
@@ -39,13 +44,7 @@ public class JavaSimpleTwitterStream {
 	    
 	    JavaDStream<Status> tweets = TwitterUtils.createStream(ssc, oauth);
 	    
-	    /*
-	    // create a DStream of twetter statuses
-	    // continuous stream of RDDs containing objects of type twitter4j.Status. 
-	    // As a very simple processing step, let�s try to print the status text of the some of the tweets.
-	    // JavaDStream<Status> tweets = ssc.twitterStream();
-	    */
-	    
+	   	    
 	    // the map operation on tweets maps each Status object to its text to create a new �transformed� DStream named statuses. 
 	    // The print output operation tells the context to print first 10 records in 
 	    //each RDD in a DStream, which in this case are 1 second batches of received status texts.	    
@@ -54,9 +53,12 @@ public class JavaSimpleTwitterStream {
 	    	        public String call(Status status) { return status.getText(); }
 	    	      }
 	    );
-	    statuses.print();
+	    JavaDStream<String> filtered =  statuses.filter(new Function<String, Boolean>() {
+	    	  public Boolean call(String s) { return s.contains(args[1]); }
+	    });
+
+	    filtered.print();
 	    
-	    //ssc.checkpoint(checkpointDir);	    
 
 	    ssc.start();
 	    ssc.awaitTermination();    
