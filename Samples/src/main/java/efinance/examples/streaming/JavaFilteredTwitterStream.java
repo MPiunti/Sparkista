@@ -15,17 +15,17 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
    FROM {SPARK_HOME} START WITH
    .\bin\spark-submit  --class "efinance.examples.streaming.JavaFilteredTwitterStream"   --master local[4]   target\Samples-0.0.1-SNAPSHOT.jar  sun
-   @author m.piunti
- 
+   @author m.piunti 
  */
 public class JavaFilteredTwitterStream {
 	
 	public static void main(String[] args) {
 		
 	    if (args.length < 1) {
-	      System.err.println("Usage: JavaFilterTwitterStream <filter>");
+	      System.err.println("Usage: JavaFilterTwitterStream <filter1>");
 	      System.exit(1);
 	    } 
+	    System.out.println("Going to filter Twitter Stream with filter: '" + args[0] + "'");   
 
 	    //StreamingExamples.setStreamingLogLevels();
 
@@ -44,6 +44,7 @@ public class JavaFilteredTwitterStream {
 	    
 	    JavaDStream<Status> tweets = TwitterUtils.createStream(ssc, oauth);
 	    
+	    System.exit(1);
 	   	    
 	    // the map operation on tweets maps each Status object to its text to create a new �transformed� DStream named statuses. 
 	    // The print output operation tells the context to print first 10 records in 
@@ -54,11 +55,10 @@ public class JavaFilteredTwitterStream {
 	    	      }
 	    );
 	    JavaDStream<String> filtered =  statuses.filter(new Function<String, Boolean>() {
-	    	  public Boolean call(String s) { return s.contains(args[1]); }
+	    	  public Boolean call(String s) { return s.contains(args[0]); }
 	    });
 
-	    filtered.print();
-	    
+	    filtered.print();	    
 
 	    ssc.start();
 	    ssc.awaitTermination();    

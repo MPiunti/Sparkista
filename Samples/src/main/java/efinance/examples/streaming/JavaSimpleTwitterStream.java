@@ -16,7 +16,6 @@ import twitter4j.conf.ConfigurationBuilder;
    FROM {SPARK_HOME} START WITH
    .\bin\spark-submit  --class "efinance.examples.streaming.JavaSimpleTwitterStream"   --master local[4]   target\Samples-0.0.1-SNAPSHOT.jar
    @author m.piunti
- 
  */
 public class JavaSimpleTwitterStream {
 	
@@ -35,7 +34,7 @@ public class JavaSimpleTwitterStream {
 	    cb.setOAuthAccessToken("28091059-jn5EJuCDBbeDnk8XNsSAdfa6mkaF9oJoUgh6UWQ2I");
 	    cb.setOAuthAccessTokenSecret("mXiZezgxaYwXHujZaB44tyYYDi6AfqheqAmmGDqehd0iG"); 
 	    Configuration conf = cb.build();
-	    OAuthAuthorization  oauth = new OAuthAuthorization( conf);
+	    OAuthAuthorization  oauth = new OAuthAuthorization(conf);
 	    
 	    JavaDStream<Status> tweets = TwitterUtils.createStream(ssc, oauth);
 	    
