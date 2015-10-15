@@ -25,7 +25,8 @@ public class JavaFilteredTwitterStream {
 	      System.err.println("Usage: JavaFilterTwitterStream <filter1>");
 	      System.exit(1);
 	    } 
-	    System.out.println("Going to filter Twitter Stream with filter: '" + args[0] + "'");   
+	    final String FILTER = args[0];
+	    System.out.println("Going to filter Twitter Stream with filter: '" + FILTER + "'");   
 
 	    //StreamingExamples.setStreamingLogLevels();
 
@@ -55,7 +56,7 @@ public class JavaFilteredTwitterStream {
 	    	      }
 	    );
 	    JavaDStream<String> filtered =  statuses.filter(new Function<String, Boolean>() {
-	    	  public Boolean call(String s) { return s.contains(args[0]); }
+	    	  public Boolean call(String s) { return s.contains(FILTER); }
 	    });
 
 	    filtered.print();	    

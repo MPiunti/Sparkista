@@ -1,6 +1,7 @@
 package efinance.examples.streaming;
 
 import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.StorageLevels;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaDStream;
@@ -27,7 +28,7 @@ public class JavaSimpleTwitterStream {
 	    SparkConf sparkConf = new SparkConf().setAppName("JavaSimpleTwitterStream");
 	    JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, Durations.seconds(1));
 	    
-	    //twitter4j.auth.Authorization auth = 
+	    //twitter4j.auth.Authorization AUTH
 	    ConfigurationBuilder  cb = new ConfigurationBuilder() ;	   
 	    cb.setOAuthConsumerKey("LXMCzC2Xh03gRHa1c0Alc9at5");
 	    cb.setOAuthConsumerSecret("CqiOJuoCuxol6ufvPjkRO44CDlhuAxf6jUhgxHIIsJm51u2xVe");
@@ -36,8 +37,9 @@ public class JavaSimpleTwitterStream {
 	    Configuration conf = cb.build();
 	    OAuthAuthorization  oauth = new OAuthAuthorization(conf);
 	    
-	    JavaDStream<Status> tweets = TwitterUtils.createStream(ssc, oauth);
+	    JavaDStream<Status> tweets = TwitterUtils.createStream(ssc, oauth /*, StorageLevels.MEMORY_AND_DISK_SER */);
 	    
+	     
 	    /*
 	    // create a DStream of twetter statuses
 	    // continuous stream of RDDs containing objects of type twitter4j.Status. 
@@ -50,12 +52,15 @@ public class JavaSimpleTwitterStream {
 	    //each RDD in a DStream, which in this case are 1 second batches of received status texts.	    
 	    JavaDStream<String> statuses = tweets.map(
 	    	      new Function<Status, String>() {
-	    	        public String call(Status status) { return status.getText(); }
+	    	        public String call(Status status) { 
+	    	        	System.out.println(" ********  TWEET:  " + status.getText() );
+	    	        	return status.getText(); 
+	    	        }
 	    	      }
 	    );
 	    statuses.print();
 	    
-	    //ssc.checkpoint(checkpointDir);	    
+	    //ssc.checkpoint("./checkpoint/");	    
 
 	    ssc.start();
 	    ssc.awaitTermination();    
