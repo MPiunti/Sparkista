@@ -25,6 +25,12 @@ public class JavaFilteredTwitterStream {
 	      System.err.println("Usage: JavaFilterTwitterStream <filter1>");
 	      System.exit(1);
 	    } 
+	    
+	    System.setProperty("http.proxyHost", "http://proxy.reply.it");
+        System.setProperty("http.proxyPort", "8080");
+        System.setProperty("https.proxyHost", "http://proxy.reply.it");
+        System.setProperty("https.proxyPort", "8080");
+	    
 	    final String FILTER = args[0];
 	    System.out.println("Going to filter Twitter Stream with filter: '" + FILTER + "'");   
 

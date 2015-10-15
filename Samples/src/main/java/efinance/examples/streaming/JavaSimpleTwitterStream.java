@@ -28,6 +28,12 @@ public class JavaSimpleTwitterStream {
 	    SparkConf sparkConf = new SparkConf().setAppName("JavaSimpleTwitterStream");
 	    JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, Durations.seconds(1));
 	    
+	    
+	    System.setProperty("http.proxyHost", "http://proxy.reply.it");
+        System.setProperty("http.proxyPort", "8080");
+        System.setProperty("https.proxyHost", "http://proxy.reply.it");
+        System.setProperty("https.proxyPort", "8080");
+	    
 	    //twitter4j.auth.Authorization AUTH
 	    ConfigurationBuilder  cb = new ConfigurationBuilder() ;	   
 	    cb.setOAuthConsumerKey("LXMCzC2Xh03gRHa1c0Alc9at5");
