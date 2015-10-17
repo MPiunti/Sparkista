@@ -2,6 +2,8 @@ package efinance.examples.streaming;
 
 import java.util.Arrays;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
@@ -26,15 +28,16 @@ public class JavaHashtagFilter {
 		
 	   
 	    //StreamingExamples.setStreamingLogLevels();
+		Logger.getLogger("org").setLevel(Level.OFF);
 
 	    // Create the context with a 1 second batch size
 	    SparkConf sparkConf = new SparkConf().setAppName("JavaHashtagFilter");
 	    JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, Durations.seconds(1));
 	    
-	    System.setProperty("http.proxyHost", "http://proxy.reply.it");
-        System.setProperty("http.proxyPort", "8080");
-        System.setProperty("https.proxyHost", "http://proxy.reply.it");
-        System.setProperty("https.proxyPort", "8080");
+//	    System.setProperty("http.proxyHost", "http://proxy.reply.it");
+//        System.setProperty("http.proxyPort", "8080");
+//        System.setProperty("https.proxyHost", "http://proxy.reply.it");
+//        System.setProperty("https.proxyPort", "8080");
 	    
 	    //twitter4j.auth.Authorization auth  
 	    ConfigurationBuilder  cb = new ConfigurationBuilder() ;	   

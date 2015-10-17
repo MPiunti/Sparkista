@@ -1,5 +1,7 @@
 package efinance.examples.streaming;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.streaming.Durations;
@@ -24,17 +26,21 @@ public class JavaFilteredTwitterStream {
 	    if (args.length < 1) {
 	      System.err.println("Usage: JavaFilterTwitterStream <filter1>");
 	      System.exit(1);
-	    } 
+	    } 	    
 	    
-	    System.setProperty("http.proxyHost", "http://proxy.reply.it");
-        System.setProperty("http.proxyPort", "8080");
-        System.setProperty("https.proxyHost", "http://proxy.reply.it");
-        System.setProperty("https.proxyPort", "8080");
+//	    System.setProperty("http.proxyHost", "http://proxy.reply.it");
+//        System.setProperty("http.proxyPort", "8080");
+//        System.setProperty("https.proxyHost", "http://proxy.reply.it");
+//        System.setProperty("https.proxyPort", "8080");
+	    
+		Logger.getLogger("org").setLevel(Level.OFF);	    
 	    
 	    final String FILTER = args[0];
 	    System.out.println("Going to filter Twitter Stream with filter: '" + FILTER + "'");   
 
 	    //StreamingExamples.setStreamingLogLevels();
+		Logger.getLogger("org").setLevel(Level.OFF);
+
 
 	    // Create the context with a 1 second batch size
 	    SparkConf sparkConf = new SparkConf().setAppName("JavaFilterTwitterStream");

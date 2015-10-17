@@ -1,5 +1,7 @@
 package efinance.examples.streaming;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
@@ -38,10 +40,13 @@ public class StarWarsTweetStream {
 	
 	public void readStream() {
 		
-	    System.setProperty("http.proxyHost", "http://proxy.reply.it");
-        System.setProperty("http.proxyPort", "8080");
-        System.setProperty("https.proxyHost", "http://proxy.reply.it");
-        System.setProperty("https.proxyPort", "8080");
+		Logger.getLogger("org").setLevel(Level.OFF);
+
+		
+//	    System.setProperty("http.proxyHost", "http://proxy.reply.it");
+//        System.setProperty("http.proxyPort", "8080");
+//        System.setProperty("https.proxyHost", "http://proxy.reply.it");
+//        System.setProperty("https.proxyPort", "8080");
 		
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true)

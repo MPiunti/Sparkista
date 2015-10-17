@@ -1,5 +1,7 @@
 package efinance.examples.streaming;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.StorageLevels;
 import org.apache.spark.api.java.function.Function;
@@ -23,17 +25,19 @@ public class JavaSimpleTwitterStream {
 	public static void main(String[] args) {
 	  
 	    //StreamingExamples.setStreamingLogLevels();
+		Logger.getLogger("org").setLevel(Level.OFF);
+
 
 	    // Create the context with a 1 second batch size
 	    SparkConf sparkConf = new SparkConf().setAppName("JavaSimpleTwitterStream");
 	    JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, Durations.seconds(1));
 	    
 	    
-	    System.setProperty("http.proxyHost", "http://proxy.reply.it");
-        System.setProperty("http.proxyPort", "8080");
-        System.setProperty("https.proxyHost", "http://proxy.reply.it");
-        System.setProperty("https.proxyPort", "8080");
-	    
+//	    System.setProperty("http.proxyHost", "http://proxy.reply.it");
+//        System.setProperty("http.proxyPort", "8080");
+//        System.setProperty("https.proxyHost", "http://proxy.reply.it");
+//        System.setProperty("https.proxyPort", "8080");
+//	    
 	    //twitter4j.auth.Authorization AUTH
 	    ConfigurationBuilder  cb = new ConfigurationBuilder() ;	   
 	    cb.setOAuthConsumerKey("LXMCzC2Xh03gRHa1c0Alc9at5");
