@@ -46,6 +46,8 @@ import java.util.regex.Pattern;
  *    `$ nc -lk 9999`
  * and then run the example
  *    `$ bin/run-example efinance.examples.streaming localhost 9999`
+ *     
+ *    .\bin\spark-submit  --class "efinance.examples.streaming.JavaNetworkWordCount"   --master local[4]   target\Samples-0.0.1-SNAPSHOT.jar  10.0.2.15   9999
  */
 public final class JavaNetworkWordCount {
   private static final Pattern SPACE = Pattern.compile(" ");

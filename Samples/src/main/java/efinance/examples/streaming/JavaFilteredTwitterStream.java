@@ -9,6 +9,7 @@ import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.twitter.TwitterUtils;
 
+import twitter4j.Place;
 import twitter4j.Status;
 import twitter4j.auth.OAuthAuthorization;
 import twitter4j.conf.Configuration;
@@ -47,12 +48,17 @@ public class JavaFilteredTwitterStream {
 	    JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, Durations.seconds(1));
 	    
 	    //twitter4j.auth.Authorization auth  
-	    ConfigurationBuilder  cb = new ConfigurationBuilder() ;	   
+	    ConfigurationBuilder  cb = new ConfigurationBuilder() ;	  
+	    cb.setDebugEnabled(true);
+//		  .setOAuthConsumerKey("BQfJNLBe0f1XZ0TQWa8U87nwe")
+//		  .setOAuthConsumerSecret("wOrp2PSZnaJZWFFrsIlni1jJzIefLBvHKoGzb949j0GnASaoHf")
+//		  .setOAuthAccessToken("218617850-zpBYMlHI0mEvPcG2AKOawSEkKBx4mbOipqUgLiTY")
+//		  .setOAuthAccessTokenSecret("rbENmyQ427RxQ0mZiNQ0livDoB4V5VPjsHLRPz0FN2cWy");
 	    cb.setOAuthConsumerKey("LXMCzC2Xh03gRHa1c0Alc9at5");
 	    cb.setOAuthConsumerSecret("CqiOJuoCuxol6ufvPjkRO44CDlhuAxf6jUhgxHIIsJm51u2xVe");
 	    cb.setOAuthAccessToken("28091059-jn5EJuCDBbeDnk8XNsSAdfa6mkaF9oJoUgh6UWQ2I");
 	    cb.setOAuthAccessTokenSecret("mXiZezgxaYwXHujZaB44tyYYDi6AfqheqAmmGDqehd0iG"); 
-	    Configuration conf = cb.build();
+ 	    Configuration conf = cb.build();
 	    OAuthAuthorization  oauth = new OAuthAuthorization(conf);
 	    
 	    JavaDStream<Status> tweets = TwitterUtils.createStream(ssc, oauth);
@@ -63,7 +69,9 @@ public class JavaFilteredTwitterStream {
 	    //each RDD in a DStream, which in this case are 1 second batches of received status texts.	    
 	    JavaDStream<String> statuses = tweets.map(
 	    	      new Function<Status, String>() {
-	    	        public String call(Status status) { return status.getText(); }
+	    	        public String call(Status status) { 	    	        	
+	    	        	return status.getText(); 
+	    	        	}
 	    	      }
 	    );
 	    JavaDStream<String> filtered =  statuses.filter(new Function<String, Boolean>() {

@@ -41,11 +41,15 @@ public class JavaHashtagFilter {
 	    
 	    //twitter4j.auth.Authorization auth  
 	    ConfigurationBuilder  cb = new ConfigurationBuilder() ;	   
-	    cb.setDebugEnabled(true)
-		  .setOAuthConsumerKey("BQfJNLBe0f1XZ0TQWa8U87nwe")
-		  .setOAuthConsumerSecret("wOrp2PSZnaJZWFFrsIlni1jJzIefLBvHKoGzb949j0GnASaoHf")
-		  .setOAuthAccessToken("218617850-zpBYMlHI0mEvPcG2AKOawSEkKBx4mbOipqUgLiTY")
-		  .setOAuthAccessTokenSecret("rbENmyQ427RxQ0mZiNQ0livDoB4V5VPjsHLRPz0FN2cWy");
+	    cb.setDebugEnabled(true);
+	    cb.setOAuthConsumerKey("LXMCzC2Xh03gRHa1c0Alc9at5");
+	    cb.setOAuthConsumerSecret("CqiOJuoCuxol6ufvPjkRO44CDlhuAxf6jUhgxHIIsJm51u2xVe");
+	    cb.setOAuthAccessToken("28091059-jn5EJuCDBbeDnk8XNsSAdfa6mkaF9oJoUgh6UWQ2I");
+	    cb.setOAuthAccessTokenSecret("mXiZezgxaYwXHujZaB44tyYYDi6AfqheqAmmGDqehd0iG"); 
+//		  .setOAuthConsumerKey("BQfJNLBe0f1XZ0TQWa8U87nwe")
+//		  .setOAuthConsumerSecret("wOrp2PSZnaJZWFFrsIlni1jJzIefLBvHKoGzb949j0GnASaoHf")
+//		  .setOAuthAccessToken("218617850-zpBYMlHI0mEvPcG2AKOawSEkKBx4mbOipqUgLiTY")
+//		  .setOAuthAccessTokenSecret("rbENmyQ427RxQ0mZiNQ0livDoB4V5VPjsHLRPz0FN2cWy");
 	    Configuration conf = cb.build();
 	    OAuthAuthorization  oauth = new OAuthAuthorization(conf);
 	    

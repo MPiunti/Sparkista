@@ -3,13 +3,13 @@ package efinance.examples.streaming;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.StorageLevels;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.twitter.TwitterUtils;
 
+import twitter4j.Place;
 import twitter4j.Status;
 import twitter4j.auth.OAuthAuthorization;
 import twitter4j.conf.Configuration;
@@ -17,28 +17,37 @@ import twitter4j.conf.ConfigurationBuilder;
 
 /**
    FROM {SPARK_HOME} START WITH
-   .\bin\spark-submit  --class "efinance.examples.streaming.JavaSimpleTwitterStream"   --master local[4]   target\Samples-0.0.1-SNAPSHOT.jar
-   @author m.piunti
+   .\bin\spark-submit  --class "efinance.examples.streaming.JavaPlaceFilteredTwitterStream"   --master local[4]   target\Samples-0.0.1-SNAPSHOT.jar  Milan
+   @author m.piunti 
  */
-public class JavaSimpleTwitterStream {
+public class JavaPlaceFilteredTwitterStream {
 	
 	public static void main(String[] args) {
-	  
-	    //StreamingExamples.setStreamingLogLevels();
-		Logger.getLogger("org").setLevel(Level.OFF);
-
-
-	    // Create the context with a 1 second batch size
-	    SparkConf sparkConf = new SparkConf().setAppName("JavaSimpleTwitterStream");
-	    JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, Durations.seconds(1));
-	    
+		
+	    if (args.length < 1) {
+	      System.err.println("Usage: JavaPlaceFilteredTwitterStream <place1>");
+	      System.exit(1);
+	    } 	    
 	    
 //	    System.setProperty("http.proxyHost", "http://proxy.reply.it");
 //        System.setProperty("http.proxyPort", "8080");
 //        System.setProperty("https.proxyHost", "http://proxy.reply.it");
 //        System.setProperty("https.proxyPort", "8080");
-//	    
-	    //twitter4j.auth.Authorization AUTH
+	    
+		Logger.getLogger("org").setLevel(Level.OFF);	    
+	    
+	    final String FILTER = args[0];
+	    System.out.println("Going to filter Twitter Stream with place filter: '" + FILTER + "'");   
+
+	    //StreamingExamples.setStreamingLogLevels();
+		Logger.getLogger("org").setLevel(Level.OFF);
+
+
+	    // Create the context with a 1 second batch size
+	    SparkConf sparkConf = new SparkConf().setAppName("JavaPlaceFilteredTwitterStream");
+	    JavaStreamingContext ssc = new JavaStreamingContext(sparkConf, Durations.seconds(1));
+	    
+	    //twitter4j.auth.Authorization auth  
 	    ConfigurationBuilder  cb = new ConfigurationBuilder() ;	  
 	    cb.setDebugEnabled(true);
 //		  .setOAuthConsumerKey("BQfJNLBe0f1XZ0TQWa8U87nwe")
@@ -49,33 +58,29 @@ public class JavaSimpleTwitterStream {
 	    cb.setOAuthConsumerSecret("CqiOJuoCuxol6ufvPjkRO44CDlhuAxf6jUhgxHIIsJm51u2xVe");
 	    cb.setOAuthAccessToken("28091059-jn5EJuCDBbeDnk8XNsSAdfa6mkaF9oJoUgh6UWQ2I");
 	    cb.setOAuthAccessTokenSecret("mXiZezgxaYwXHujZaB44tyYYDi6AfqheqAmmGDqehd0iG"); 
-	    Configuration conf = cb.build();
+ 	    Configuration conf = cb.build();
 	    OAuthAuthorization  oauth = new OAuthAuthorization(conf);
 	    
-	    JavaDStream<Status> tweets = TwitterUtils.createStream(ssc, oauth /*, StorageLevels.MEMORY_AND_DISK_SER */);
+	    JavaDStream<Status> tweets = TwitterUtils.createStream(ssc, oauth);
 	    
-	     
-	    /*
-	    // create a DStream of twetter statuses
-	    // continuous stream of RDDs containing objects of type twitter4j.Status. 
-	    // As a very simple processing step, let�s try to print the status text of the some of the tweets.
-	    // JavaDStream<Status> tweets = ssc.twitterStream();
-	    */
-	    
+	   	    
 	    // the map operation on tweets maps each Status object to its text to create a new �transformed� DStream named statuses. 
 	    // The print output operation tells the context to print first 10 records in 
 	    //each RDD in a DStream, which in this case are 1 second batches of received status texts.	    
-	    JavaDStream<String> statuses = tweets.map(
+	    JavaDStream<String> places = tweets.map(
 	    	      new Function<Status, String>() {
 	    	        public String call(Status status) { 
-	    	        	System.out.println(" ********  TWEET:  " + status.getText() );
-	    	        	return status.getText(); 
-	    	        }
+	    	        	String user = status.getGeoLocation() != null ? "[" + status.getGeoLocation() + "]": "";
+	    	        	String place = status.getPlace()!=null ? "[" +status.getPlace().getName() + "- " +status.getPlace().getName() +"] " : "";
+	    	        	return  user + place+status.getText();
+	    	        	}
 	    	      }
 	    );
-	    statuses.print();
-	    
-	    //ssc.checkpoint("./checkpoint/");	    
+	    JavaDStream<String> filtered =  places.filter(new Function<String, Boolean>() {
+	    	  public Boolean call(String s) { return s.contains(FILTER); }
+	    });
+
+	    filtered.print();	    
 
 	    ssc.start();
 	    ssc.awaitTermination();    
