@@ -6,7 +6,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Archetype - Samples</name>
   <url>http://maven.apache.org</url>
-	  <dependencies>
+	 <dependencies>
 	    <dependency>
 		<groupId>org.apache.spark</groupId>
 		<artifactId>spark-core_2.11</artifactId>
@@ -17,6 +17,13 @@
 		<artifactId>spark-streaming_2.10</artifactId>
 		<version>1.5.1</version>
 	</dependency>
+	
+	<dependency>
+		<groupId>org.apache.spark</groupId>
+		<artifactId>spark-mllib_2.10</artifactId>
+		<version>1.5.1</version>
+	</dependency>
+	
 		
 	<dependency>
 		<groupId>org.apache.spark</groupId>
@@ -27,6 +34,15 @@
   
   <build>
     <plugins>
+    
+      <plugin>
+		  <artifactId>maven-compiler-plugin</artifactId>
+		  <version>3.1</version>
+		  <configuration>
+		      <source>1.7</source>
+		      <target>1.7</target>
+		  </configuration>
+	  </plugin>
       <!-- any other plugins -->
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
